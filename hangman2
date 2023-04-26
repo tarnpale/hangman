@@ -1,0 +1,105 @@
+import random
+
+# список слов для игры
+words = ["яблоко", "арбуз", "ежевика", "банан", "ананас"]
+
+# выбираем случайное слово из списка
+word = random.choice(words)
+
+# переменные для текущего состояния слова и количества попыток
+current_word = "_" * len(word)
+attempts = 6
+
+# функция проверки буквы
+def check_letter(letter):
+    global current_word, attempts
+    if letter in word:
+        for i in range(len(word)):
+            if word[i] == letter:
+                current_word = current_word[:i] + letter + current_word[i+1:]
+        print("Correct!")
+    else:
+        attempts -= 1
+        print("Wrong!")
+        draw_hangman()
+
+# функция рисования виселицы
+def draw_hangman():
+    if attempts == 6:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |             ")
+        print(" |             ")
+        print(" |             ")
+        print(" |             ")
+        print("_|___          ")
+    elif attempts == 5:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |             ")
+        print(" |             ")
+        print(" |             ")
+        print("_|___          ")
+    elif attempts == 4:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |       |     ")
+        print(" |             ")
+        print(" |             ")
+        print("_|___          ")
+    elif attempts == 3:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |      /|     ")
+        print(" |             ")
+        print(" |             ")
+        print("_|___          ")
+    elif attempts == 2:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |      /|\    ")
+        print(" |             ")
+        print(" |             ")
+        print("_|___          ")
+    elif attempts == 1:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |      /|\    ")
+        print(" |      /      ")
+        print(" |             ")
+        print("_|___          ")
+    else:
+        print("  ________     ")
+        print(" |/      |     ")
+        print(" |      (_)    ")
+        print(" |      /|\    ")
+        print(" |      / \    ")
+        print(" |             ")
+        print("_|___          ")
+
+# цикл игры
+while True:
+    # выводим текущее состояние слова и количество оставшихся попыток
+    print("\nCurrent word:", current_word)
+    print("Attempts left:", attempts)
+
+    # запрашиваем букву у пользователя
+    letter = input("Enter a letter: ").lower()
+
+    # проверяем букву
+    check_letter(letter)
+
+    # проверяем, выиграл ли пользователь
+    if current_word == word:
+        print("\nCongratulations, you won!")
+        break
+
+    # проверяем, проиграл ли пользователь
+    if attempts == 0:
+        print("\nSorry, you lost. The word was", word)
+        break
